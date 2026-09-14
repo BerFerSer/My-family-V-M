@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Для Влады 💜</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body { font-family: 'Segoe UI', Tahoma, sans-serif; line-height: 1.6; color: #333; background: linear-gradient(135deg, #fff8f0 0%, #f3e8ff 100%); transition: background 0.5s; }
+
+/* === Кинематографичное открытие === */
+.intro { position: fixed; inset: 0; background: linear-gradient(135deg, #ff8c42 0%, #a855f7 100%); z-index: 99999; display: flex; align-items: center; justify-content: center; flex-direction: column; transition: opacity 1.2s ease, visibility 1.2s ease; }
+.intro.hide { opacity: 0; visibility: hidden; }
+.intro-name { font-size: 3rem; font-weight: 700; color: white; opacity: 0; transform: translateY(30px); animation: introFade 1.5s ease forwards 0.3s; text-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+.intro-sub { font-size: 1rem; color: rgba(255,255,255,0.85); margin-top: 1rem; letter-spacing: 2px; opacity: 0; transform: translateY(20px); animation: introFade 1.5s ease forwards 1.2s; }
+.intro-heart { font-size: 2.5rem; margin-top: 1.5rem; opacity: 0; animation: introHeart 1.5s ease forwards 2s; }
+@keyframes introFade { to { opacity: 1; transform: translateY(0); } }
+@keyframes introHeart { 0% { opacity: 0; transform: scale(0.5); } 60% { opacity: 1; transform: scale(1.2); } 100% { opacity: 1; transform: scale(1); } }
+
+/* === Летающие сердечки на фоне === */
+.hearts-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+.heart-float { position: absolute; font-size: 1.5rem; opacity: 0.15; animation: floatUp 15s linear infinite; }
+@keyframes floatUp {
+0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+10% { opacity: 0.2; }
+90% { opacity: 0.2; }
+100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+}
+
+/* === Тап-сердечки === */
+.tap-heart { position: fixed; pointer-events: none; font-size: 2rem; z-index: 9999; animation: tapFly 1.2s ease-out forwards; }
+@keyframes tapFly { 0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; } 100% { transform: translate(-50%, -250%) scale(1.5); opacity: 0; } }
+
+/* === Салют === */
+.firework-heart { position: fixed; pointer-events: none; font-size: 1.8rem; z-index: 9999; left: 50%; top: 50%; }
+@keyframes firework {
+0% { transform: translate(-50%, -50%) scale(0.3); opacity: 1; }
+100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.3) rotate(var(--rot)); opacity: 0; }
+}
+
+/* === Пульсация фона === */
+body.hug-pulse { animation: bgPulse 1.5s ease-in-out; }
+@keyframes bgPulse { 0%, 100% { background-color: #fff8f0; } 30% { background-color: #ffe0e8; } 60% { background-color: #f5e0ff; } }
+
+/* === Шапка === */
+header { background: linear-gradient(135deg, #ff8c42 0%, #a855f7 100%); color: white; padding: 1rem 0; position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(168, 85, 247, 0.3); }
+nav { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 0 1rem; }
+.logo { font-size: 1.3rem; font-weight: bold; }
+.nav-links { display: none; list-style: none; gap: 1rem; }
+.nav-links a { color: white; text-decoration: none; font-size: 0.85rem; }
+
+/* === Главный экран === */
+.hero { min-height: 100vh; background: linear-gradient(135deg, #ff8c42 0%, #c65ba8 50%, #a855f7 100%); display: flex; align-items: center; justify-content: center; text-align: center; color: white; padding: 6rem 1.5rem 2rem; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(255,255,255,0.1) 0%, transparent 50%); }
+.hero-content { position: relative; z-index: 1; }
+.hero-content .pre-title { font-size: 0.95rem; letter-spacing: 3px; opacity: 0.9; margin-bottom: 1rem; text-transform: uppercase; }
+.hero-content h1 { font-size: 2.2rem; margin-bottom: 0.5rem; }
+.hero-content h1 .name { display: block; font-size: 3rem; margin-top: 0.5rem; }
+.hero-content p { font-size: 1.05rem; margin: 1.5rem 0 2rem; opacity: 0.95; max-width: 500px; margin-left: auto; margin-right: auto; }
+.btn { display: inline-block; padding: 1rem 2.5rem; background: white; color: #a855f7; text-decoration: none; border-radius: 50px; font-weight: bold; transition: transform 0.3s; box-shadow: 0 5px 20px rgba(0,0,0,0.15); }
+.btn:hover { transform: translateY(-3px); }
+.music-hint { margin-top: 1.5rem; font-size: 0.95rem; color: rgba(255, 255, 255, 0.9); letter-spacing: 0.5px; animation: hintPulse 2s ease-in-out infinite; }
+@keyframes hintPulse { 0%, 100% { opacity: 0.7; transform: translateY(0); } 50% { opacity: 1; transform: translateY(-3px); } }
+
+/* === Секции === */
+section { padding: 4rem 1.5rem; max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; }
+.section-title { text-align: center; font-size: 1.7rem; margin-bottom: 2rem; background: linear-gradient(135deg, #ff8c42, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700; }
+.section-title::after { content: ''; display: block; width: 80px; height: 3px; background: linear-gradient(135deg, #ff8c42, #a855f7); margin: 1rem auto; border-radius: 2px; }
+
+/* === Счётчик === */
+.counter-section { background: linear-gradient(135deg, rgba(255,140,66,0.08) 0%, rgba(168,85,247,0.08) 100%); border-radius: 25px; margin: 2rem 1.5rem; padding: 3rem 1.5rem; text-align: center; }
+.counter-subtitle { font-size: 1rem; color: #666; margin-bottom: 2rem; }
+.counter-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; max-width: 600px; margin: 0 auto; }
+.counter-card { background: white; border-radius: 20px; padding: 1.5rem 1rem; box-shadow: 0 10px 30px rgba(168,85,247,0.12); border: 2px solid #a855f7; }
+.counter-value { font-size: 2.3rem; font-weight: bold; background: linear-gradient(135deg, #ff8c42, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
+.counter-label { font-size: 0.8rem; color: #888; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 1px; }
+
+/* === Таймлайн === */
+.timeline { position: relative; max-width: 700px; margin: 0 auto; padding: 2rem 0; }
+.timeline::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 3px; background: linear-gradient(180deg, #ff8c42, #a855f7); border-radius: 2px; }
+.timeline-item { position: relative; padding-left: 65px; margin-bottom: 2rem; }
+.timeline-dot { position: absolute; left: 2px; top: 0; width: 40px; height: 40px; border-radius: 50%; background: white; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 5px 15px rgba(168,85,247,0.25); z-index: 1; }
+.timeline-content { background: white; padding: 1.5rem; border-radius: 18px; box-shadow: 0 8px 25px rgba(168,85,247,0.1); border-left: 4px solid #a855f7; }
+.timeline-date { display: inline-block; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #a855f7; margin-bottom: 0.5rem; }
+.timeline-content h3 { color: #333; font-size: 1.1rem; margin-bottom: 0.5rem; }
+.timeline-content p { color: #666; font-size: 0.9rem; line-height: 1.7; }
+
+/* === Карточки причин === */
+.reasons-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+.reason-card { background: white; padding: 2rem 1.5rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(168,85,247,0.1); text-align: center; transition: transform 0.3s; border-top: 4px solid #ff8c42; }
+.reason-card:hover { transform: translateY(-8px); }
+.reason-icon { font-size: 3rem; margin-bottom: 1rem; }
+.reason-card h3 { margin-bottom: 0.5rem; color: #a855f7; font-size: 1.15rem; }
+.reason-card p { color: #666; font-size: 0.9rem; }
+
+/* === Печатная машинка === */
+.typing-section { text-align: center; padding: 3rem 1.5rem; background: linear-gradient(135deg, rgba(255,140,66,0.08) 0%, rgba(168,85,247,0.08) 100%); border-radius: 25px; margin: 2rem 1.5rem; }
+.typing-box { background: white; padding: 2.5rem 1.5rem; border-radius: 20px; box-shadow: 0 15px 40px rgba(168,85,247,0.15); max-width: 700px; margin: 0 auto; min-height: 220px; border: 2px solid #a855f7; }
+.typing-text { font-size: 1.05rem; line-height: 1.9; color: #444; font-style: italic; }
+.typing-cursor { display: inline-block; width: 2px; height: 1.2em; background: #a855f7; animation: blink 0.8s infinite; vertical-align: middle; margin-left: 2px; }
+@keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+
+/* === Растущая роза === */
+/* === Растущая роза === */
+.rose-section { text-align: center; padding: 3rem 1.5rem; }
+.rose-container { position: relative; width: 100%; max-width: 300px; height: 350px; margin: 1rem auto; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
+.rose-stem { position: relative; width: 4px; background: linear-gradient(180deg, #4a7c2e 0%, #2d5016 100%); border-radius: 2px; height: 0; transition: height 0.15s linear; }
+.rose-bud { position: absolute; top: -55px; left: 50%; transform: translateX(-50%); font-size: 3rem; opacity: 0; transition: opacity 0.5s, font-size 0.5s; line-height: 1; z-index: 2; }
+.rose-bud.bloom { font-size: 4rem; }
+.rose-leaf { position: absolute; width: 30px; height: 15px; background: linear-gradient(135deg, #5a9e35 0%, #3d7020 100%); opacity: 0; transition: opacity 0.3s; z-index: 1; }
+.rose-leaf.left { left: -30px; border-radius: 50% 0 50% 0; transform: rotate(-25deg); }
+.rose-leaf.right { right: -30px; border-radius: 0 50% 0 50%; transform: rotate(25deg); }
+
+/* === Букет === */
+.bouquet-section { text-align: center; background: linear-gradient(135deg, rgba(255,140,66,0.08) 0%, rgba(168,85,247,0.08) 100%); border-radius: 25px; margin: 2rem 1.5rem; padding: 3rem 1.5rem; }
+.bouquet-display { font-size: 4rem; min-height: 120px; display: flex; align-items: center; justify-content: center; margin: 1rem 0; transition: transform 0.3s; }
+.bouquet-display.picked { animation: pickFlower 0.6s ease; }
+@keyframes pickFlower { 0% { transform: scale(1); } 50% { transform: scale(1.3) rotate(10deg); } 100% { transform: scale(1); } }
+.bouquet-message { min-height: 80px; font-size: 1rem; color: #555; margin: 1rem auto; max-width: 500px; line-height: 1.7; font-style: italic; }
+.bouquet-counter { font-size: 0.9rem; color: #a855f7; margin-top: 1rem; font-weight: bold; }
+
+/* === Обнимашки === */
+.hug-section { text-align: center; padding: 3rem 1.5rem; }
+.hug-btn, .surprise-btn { background: linear-gradient(135deg, #ff8c42, #a855f7); color: white; border: none; padding: 1.2rem 2.5rem; font-size: 1.1rem; border-radius: 50px; cursor: pointer; font-weight: bold; box-shadow: 0 10px 30px rgba(168,85,247,0.3); transition: transform 0.3s; font-family: inherit; }
+.hug-btn:hover, .surprise-btn:hover { transform: translateY(-3px) scale(1.03); }
+.hug-btn:active { transform: scale(0.95); }
+.hug-counter { font-size: 1.1rem; color: #a855f7; margin-top: 1.5rem; font-weight: bold; }
+.hug-message { margin-top: 1rem; color: #666; font-style: italic; min-height: 30px; }
+
+/* === Звёздное небо === */
+.sky-section { background: linear-gradient(180deg, #1a0b2e 0%, #2d1b3d 50%, #3d2a1f 100%); border-radius: 25px; margin: 2rem 1.5rem; padding: 3rem 1.5rem; text-align: center; }
+.sky-title { color: white; font-size: 1.2rem; margin-bottom: 0.5rem; font-weight: 700; }
+.sky-subtitle { color: rgba(255,255,255,0.7); font-size: 0.85rem; margin-bottom: 1rem; }
+.sky-canvas { position: relative; width: 100%; height: 300px; margin: 1rem 0; border-radius: 15px; background: radial-gradient(ellipse at center, #1a0b2e 0%, #0a0515 100%); overflow: hidden; }
+.nebula { position: absolute; border-radius: 50%; filter: blur(40px); opacity: 0.35; animation: nebulaPulse 8s ease-in-out infinite; }
+.nebula-1 { width: 200px; height: 200px; background: radial-gradient(circle, #a855f7 0%, transparent 70%); top: 10%; left: 5%; }
+.nebula-2 { width: 180px; height: 180px; background: radial-gradient(circle, #ff8c42 0%, transparent 70%); bottom: 15%; right: 10%; }
+.nebula-3 { width: 150px; height: 150px; background: radial-gradient(circle, #c65ba8 0%, transparent 70%); top: 40%; left: 50%; }
+@keyframes nebulaPulse { 0%, 100% { opacity: 0.25; transform: scale(1); } 50% { opacity: 0.45; transform: scale(1.1); } }
+.moon { position: absolute; top: 15px; right: 20px; width: 45px; height: 45px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fffef0 0%, #f0e8c0 70%, #d0c898 100%); box-shadow: 0 0 20px rgba(255,250,220,0.6), 0 0 40px rgba(255,240,180,0.3); animation: moonGlow 4s ease-in-out infinite; }
+@keyframes moonGlow { 0%, 100% { box-shadow: 0 0 20px rgba(255,250,220,0.6), 0 0 40px rgba(255,240,180,0.3); } 50% { box-shadow: 0 0 30px rgba(255,250,220,0.8), 0 0 60px rgba(255,240,180,0.4); } }
+.sky-star { position: absolute; background: white; border-radius: 50%; box-shadow: 0 0 6px rgba(255,255,255,0.8); animation: twinkle 3s ease-in-out infinite; }
+@keyframes twinkle { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 1; transform: scale(1.3); } }
+.shooting-star { position: absolute; width: 4px; height: 4px; background: white; border-radius: 50%; box-shadow: 0 0 10px 2px rgba(255,255,255,0.9), 0 0 20px 4px rgba(255,240,200,0.5); animation: shoot 2.5s linear forwards; }
+.shooting-star::after { content: ''; position: absolute; top: 50%; left: 50%; width: 120px; height: 2px; background: linear-gradient(to left, transparent, rgba(255,255,255,0.9)); transform: translate(0, -50%) rotate(-45deg); transform-origin: left center; }
+@keyframes shoot { 0% { transform: translate(0, 0); opacity: 0; } 10% { opacity: 1; } 100% { transform: translate(-350px, 250px); opacity: 0; } }
+.sky-date { color: rgba(255,255,255,0.9); font-size: 0.85rem; margin-top: 1rem; letter-spacing: 2px; }
+
+/* === Послание === */
+.message-box { background: linear-gradient(135deg, #ff8c42 0%, #a855f7 100%); color: white; padding: 3rem 1.5rem; border-radius: 25px; text-align: center; margin: 2rem 0; box-shadow: 0 20px 40px rgba(168,85,247,0.25); }
+.message-box .quote { font-size: 2rem; margin-bottom: 1rem; opacity: 0.7; }
+.message-box p { font-size: 1rem; line-height: 1.8; margin-bottom: 1rem; }
+.message-box .signature { font-style: italic; margin-top: 1.5rem; opacity: 0.9; font-size: 1rem; }
+
+/* === Сюрприз === */
+.surprise-section { text-align: center; padding: 3rem 1.5rem; }
+.surprise-content { max-height: 0; overflow: hidden; transition: max-height 0.6s ease, opacity 0.6s ease, margin 0.6s ease; opacity: 0; margin-top: 0; }
+.surprise-content.open { max-height: 600px; opacity: 1; margin-top: 2rem; }
+.surprise-inner { background: white; border-radius: 20px; padding: 2.5rem 1.5rem; box-shadow: 0 15px 40px rgba(168,85,247,0.2); border: 2px solid #a855f7; }
+.surprise-inner .heart-big { font-size: 3rem; margin-bottom: 1rem; animation: pulse 1.5s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+.surprise-inner p { font-size: 1rem; color: #555; line-height: 1.8; }
+
+/* === Футер === */
+footer { background: linear-gradient(135deg, #2d1b3d 0%, #3d2a1f 100%); color: white; text-align: center; padding: 2.5rem 1.5rem; margin: 0; width: 100vw; max-width: 100vw; position: relative; left: 50%; transform: translateX(-50%); overflow: hidden; box-sizing: border-box; }
+footer .footer-date { font-size: 1.2rem; font-weight: bold; color: #ff8c42; margin-bottom: 0.5rem; }
+footer p { opacity: 0.7; font-size: 0.9rem; position: relative; z-index: 2; }
+footer .small-heart { margin-top: 1rem; font-size: 1.2rem; position: relative; z-index: 2; }
+
+/* === Волны в футере === */
+.waves { position: absolute; bottom: 0; left: 0; width: 100%; height: 80px; overflow: hidden; z-index: 1; }
+.wave { position: absolute; bottom: 0; left: 0; width: 200%; height: 100%; background: linear-gradient(90deg, rgba(255,140,66,0.35) 0%, rgba(168,85,247,0.35) 100%); border-radius: 45%; animation: waveMove 12s linear infinite; }
+.wave-2 { background: linear-gradient(90deg, rgba(168,85,247,0.25) 0%, rgba(255,140,66,0.25) 100%); animation: waveMove 18s linear infinite reverse; opacity: 0.7; }
+@keyframes waveMove {
+0% { transform: translateX(0) rotate(0deg); }
+100% { transform: translateX(-50%) rotate(360deg); }
+}
+
+/* === Плавающая кнопка музыки === */
+.music-btn { position: fixed !important; bottom: 20px !important; right: 20px !important; top: auto !important; left: auto !important; width: 55px; height: 55px; border-radius: 50%; background: linear-gradient(135deg, #ff8c42, #a855f7); border: none; color: white; font-size: 1.5rem; cursor: pointer; box-shadow: 0 8px 25px rgba(168,85,247,0.4); z-index: 99999 !important; display: flex !important; align-items: center; justify-content: center; transition: transform 0.3s; transform: translateZ(0); }
+.music-btn:hover { transform: scale(1.1); }
+.music-btn.playing { animation: musicPulse 1.2s ease-in-out infinite; }
+@keyframes musicPulse { 0%, 100% { box-shadow: 0 8px 25px rgba(168,85,247,0.4); } 50% { box-shadow: 0 8px 35px rgba(255,140,66,0.7); } }
+
+/* === Анимация появления === */
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s, transform 0.8s; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* === Адаптив === */
+@media (min-width: 600px) {
+.nav-links { display: flex; }
+.hero-content h1 { font-size: 3rem; }
+.hero-content h1 .name { font-size: 5rem; }
+.counter-grid { grid-template-columns: repeat(4, 1fr); }
+.reasons-grid { grid-template-columns: repeat(2, 1fr); }
+.section-title { font-size: 2.2rem; }
+.timeline::before { left: 50%; transform: translateX(-50%); }
+.timeline-item { padding-left: 0; padding-right: 55%; text-align: right; }
+.timeline-item:nth-child(even) { padding-right: 0; padding-left: 55%; text-align: left; }
+.timeline-dot { left: 50%; transform: translateX(-50%); }
+.intro-name { font-size: 5rem; }
+}
+@media (min-width: 900px) { .reasons-grid { grid-template-columns: repeat(4, 1fr); } }
+</style>
+</head>
+<body>
+<button class="music-btn" id="musicBtn" onclick="toggleMusic()">🎵</button>
+
+<!-- Кинематографичное открытие -->
+<div class="intro" id="intro">
+<div class="intro-name">Для Влады 💜</div>
+<div class="intro-sub">С любовью, Максим</div>
+<div class="intro-heart">💕</div>
+</div>
+
+<!-- Летающие сердечки на фоне -->
+<div class="hearts-bg">
+<span class="heart-float" style="left: 5%; animation-delay: 0s;">💕</span>
+<span class="heart-float" style="left: 15%; animation-delay: 2s;">💜</span>
+<span class="heart-float" style="left: 25%; animation-delay: 4s;">🧡</span>
+<span class="heart-float" style="left: 35%; animation-delay: 6s;">💖</span>
+<span class="heart-float" style="left: 45%; animation-delay: 8s;">✨</span>
+<span class="heart-float" style="left: 55%; animation-delay: 10s;">💕</span>
+<span class="heart-float" style="left: 65%; animation-delay: 1s;">🌹</span>
+<span class="heart-float" style="left: 75%; animation-delay: 3s;">💫</span>
+<span class="heart-float" style="left: 85%; animation-delay: 5s;">💜</span>
+<span class="heart-float" style="left: 95%; animation-delay: 7s;">🧡</span>
+</div>
+
+<header>
+<nav>
+<div class="logo">🧡 Для Влады 💜</div>
+<ul class="nav-links">
+<li><a href="#home">Главная</a></li>
+<li><a href="#counter">Счётчик</a></li>
+<li><a href="#story">История</a></li>
+<li><a href="#rose">Роза</a></li>
+<li><a href="#bouquet">Букет</a></li>
+<li><a href="#sky">Небо</a></li>
+</ul>
+</nav>
+</header>
+
+<section class="hero" id="home">
+<div class="hero-content">
+<div class="pre-title">С любовью</div>
+<h1>Для тебя,<span class="name">Влада 💜</span></h1>
+<p>Этот сайт — маленький подарок, сделанный с большой любовью. Здесь живёт наша история.</p>
+<a href="#counter" class="btn">Наша история →</a>
+<p class="music-hint">🎵 Включи музыку — так будет волшебнее ✨</p>
+</div>
+</section>
+
+<div class="counter-section fade-in" id="counter">
+<h2 class="section-title">Мы вместе уже</h2>
+<p class="counter-subtitle">Каждая секунда с тобой — бесценна 💕</p>
+<div class="counter-grid">
+<div class="counter-card"><div class="counter-value" id="days">0</div><div class="counter-label">Дней</div></div>
+<div class="counter-card"><div class="counter-value" id="hours">0</div><div class="counter-label">Часов</div></div>
+<div class="counter-card"><div class="counter-value" id="minutes">0</div><div class="counter-label">Минут</div></div>
+<div class="counter-card"><div class="counter-value" id="seconds">0</div><div class="counter-label">Секунд</div></div>
+</div>
+</div>
+
+<section id="story">
+<h2 class="section-title fade-in">Наша история 💕</h2>
+<div class="timeline">
+<div class="timeline-item fade-in">
+<div class="timeline-dot">💕</div>
+<div class="timeline-content">
+<div class="timeline-date">06.11.2025</div>
+<h3>Мы нашли друг друга</h3>
+<p>Всё началось в ВК, в Дайвинчике. Ты поставила мне лайк «на последней надежде» — и это стало началом нашей истории. Я тогда ещё не знал, что эта случайность перевернёт мою жизнь.</p>
+</div>
+</div>
+<div class="timeline-item fade-in">
+<div class="timeline-dot">🎂</div>
+<div class="timeline-content">
+<div class="timeline-date">23.01.2026</div>
+<h3>Три слова, которые всё изменили</h3>
+<p>В день моего рождения ты впервые сказала: «Я тебя люблю». Это был самый незабываемый день рождения в моей жизни. Спасибо, что выбрала меня❤️</p>
+</div>
+</div>
+<div class="timeline-item fade-in">
+<div class="timeline-dot">💌</div>
+<div class="timeline-content">
+<div class="timeline-date">Каждый день</div>
+<h3>Ни дня без тебя</h3>
+<p>С самого первого дня и до сегодня — ни одного дня без сообщения или звонка. Ты всегда рядом, даже когда далеко. Ты в моём сердечке💗 Я ценю тебя!</p>
+</div>
+</div>
+<div class="timeline-item fade-in">
+<div class="timeline-dot">☀️</div>
+<div class="timeline-content">
+<div class="timeline-date">Август</div>
+<h3>Лучший отпуск в моей жизни</h3>
+<p>В августе мы провели отпуск вместе — от первого до последнего дня. Это было лучшее время. Каждый момент с тобой – бесценен🥰</p>
+</div>
+</div>
+<div class="timeline-item fade-in">
+<div class="timeline-dot">❤️</div>
+<div class="timeline-content">
+<div class="timeline-date">Навсегда</div>
+<h3>Ты — та самая</h3>
+<p>Я понял это в первый же день. Ты узнала, что я военный курсант, и не испугалась трудностей — осталась рядом и остаёшься до сих пор. А я, в свою очередь, всегда буду рядом, чтобы помогать тебе и радовать тебя каждый день❤️‍🔥</p>
+</div>
+</div>
+<div class="timeline-item fade-in">
+<div class="timeline-dot">🏡</div>
+<div class="timeline-content">
+<div class="timeline-date">Наши мечты</div>
+<h3>Что нас ждёт впереди</h3>
+<p>Мы оба мечтаем о крепкой, счастливой семье, о детях и о собственном, уютном доме. И я знаю: вместе мы всё сможем. Впереди– целая жизнь💞</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="reasons">
+<h2 class="section-title fade-in">Почему ты особенная</h2>
+<div class="reasons-grid">
+<div class="reason-card fade-in"><div class="reason-icon">🌹</div><h3>Твоя улыбка</h3><p>Она освещает всё вокруг и делает даже самый хмурый день тёплым.</p></div>
+<div class="reason-card fade-in"><div class="reason-icon">✨</div><h3>Твоя душа</h3><p>В тебе столько доброты и тепла, что рядом хочется становиться лучше.</p></div>
+<div class="reason-card fade-in"><div class="reason-icon">💫</div><h3>Твой характер</h3><p>Ты умеешь вдохновлять, поддерживать и делать каждый день ярким.</p></div>
+<div class="reason-card fade-in"><div class="reason-icon">💖</div><h3>Спасибо тебе❤️</h3><p>Просто потому что ты есть. Настоящая, искренняя, любимая — моя Влада.</p></div>
+</div>
+</section>
+
+<div class="typing-section fade-in" id="typing">
+<h2 class="section-title">Послание для тебя 💌</h2>
+<div class="typing-box">
+<div class="typing-text"><span id="typingText"></span><span class="typing-cursor"></span></div>
+</div>
+</div>
+
+<!-- Растущая роза -->
+<div class="rose-section fade-in" id="rose">
+<h2 class="section-title">Роза для тебя 🌹</h2>
+<p class="counter-subtitle">Прокрути вниз — и она расцветёт</p>
+<div class="rose-container">
+<div class="rose-stem" id="roseStem">
+<div class="rose-bud" id="roseBud">🌹</div>
+<div class="rose-leaf left" id="leafLeft" style="top: 40%;"></div>
+<div class="rose-leaf right" id="leafRight" style="top: 65%;"></div>
+</div>
+</div>
+
+<div class="bouquet-section fade-in" id="bouquet">
+<h2 class="section-title">Виртуальный букет 🌹</h2>
+<p class="counter-subtitle">Нажми на кнопку — и сорви цветок с пожеланием</p>
+<div class="bouquet-display" id="bouquetDisplay">🌷</div>
+<div class="bouquet-message" id="bouquetMessage">Нажми «Сорвать цветок», чтобы получить пожелание 💕</div>
+<button class="hug-btn" onclick="pickFlower()">🌸 Сорвать цветок</button>
+<div class="bouquet-counter" id="bouquetCounter">Собрано цветов: 0</div>
+</div>
+
+<div class="hug-section fade-in">
+<h2 class="section-title">Обнимашки 🤗</h2>
+<p class="counter-subtitle">Нажми — и я обниму тебя прямо сейчас</p>
+<button class="hug-btn" onclick="hugMe()">🤗 Обнять</button>
+<div class="hug-counter" id="hugCounter">Тебя обняли: 0 раз</div>
+<div class="hug-message" id="hugMessage"></div>
+</div>
+
+<div class="sky-section fade-in" id="sky">
+<div class="sky-title">✨ Звёздное небо ✨</div>
+<div class="sky-subtitle">Каким было небо в день, когда мы нашли друг друга</div>
+<div class="sky-canvas" id="skyCanvas"></div>
+<div class="sky-date">06.11.2025</div>
+</div>
+
+<section id="message">
+<div class="message-box fade-in">
+<div class="quote">❝</div>
+<p>Влада, ты появилась в моей жизни как самый яркий рассвет — и с тех пор каждый день наполнен светом. Ты моя первая мысль утром и крайняя перед сном.</p>
+<p>Спасибо тебе за каждый момент, за каждую улыбку, за то, что ты рядом. Я хочу, чтобы ты знала: я ценю тебя каждую секунду и хочу сделать тебя самой счастливой на свете❤️</p>
+<p>Этот сайт — просто маленький знак того, что ты для меня значишь. Ты — моё всё. 💜🧡</p>
+<div class="signature">— Твой Максим</div>
+</div>
+</section>
+
+<section class="surprise-section fade-in">
+<button class="surprise-btn" onclick="toggleSurprise()">🎁 Нажми, тут сюрприз</button>
+<div class="surprise-content" id="surprise">
+<div class="surprise-inner">
+<div class="heart-big">💖</div>
+<p>Влада, я люблю тебя больше, чем можно выразить словами. Каждый день с тобой — это подарок, и я благодарен судьбе за то, что ты рядом.</p>
+<p style="margin-top: 1rem;">Спасибо, что ты есть в моей жизни. 💕</p>
+</div>
+</div>
+</section>
+
+<footer>
+<div class="waves">
+<div class="wave"></div>
+<div class="wave wave-2"></div>
+</div>
+<div class="footer-date">06.11.2025</div>
+<p>День, когда началась наша история</p>
+<div class="small-heart">🧡💜</div>
+<p style="margin-top: 1rem;">Сделано с любовью для Влады © Максим</p>
+</footer>
+
+<script>
+// ============ КИНЕМАТОГРАФИЧНОЕ ОТКРЫТИЕ ============
+window.addEventListener('load', () => {
+setTimeout(() => {
+document.getElementById('intro').classList.add('hide');
+}, 3200);
+});
+
+// ============ СЧЁТЧИК ============
+const startDate = new Date('2025-11-06T13:44:00');
+function updateCounter() {
+const now = new Date();
+const diff = now - startDate;
+if (diff < 0) return;
+document.getElementById('days').textContent = Math.floor(diff / 86400000);
+document.getElementById('hours').textContent = Math.floor((diff % 86400000) / 3600000);
+document.getElementById('minutes').textContent = Math.floor((diff % 3600000) / 60000);
+document.getElementById('seconds').textContent = Math.floor((diff % 60000) / 1000);
+}
+updateCounter();
+setInterval(updateCounter, 1000);
+
+// ============ МУЗЫКА ============
+const audio = new Audio('https://raw.githubusercontent.com/BerFerSer/My-family-V-M/d1993790b8b98201429b0807e9296bf1465b787d/song.mp3');
+audio.loop = true;
+audio.volume = 0.35;
+let musicPlaying = false;
+
+function toggleMusic() {
+const btn = document.getElementById('musicBtn');
+const hint = document.querySelector('.music-hint');
+if (musicPlaying) {
+audio.pause();
+btn.textContent = '🎵';
+btn.classList.remove('playing');
+musicPlaying = false;
+if (hint) hint.style.display = 'block';
+} else {
+audio.play().then(() => {
+btn.textContent = '⏸️';
+btn.classList.add('playing');
+musicPlaying = true;
+if (hint) hint.style.display = 'none';
+}).catch(err => console.log('Ошибка:', err));
+}
+}
+
+// ============ ПЕЧАТНАЯ МАШИНКА — ИСТОРИЯ, ПРИЧИНЫ, ПОСЛАНИЕ ============
+const typingBlocks = [];
+
+const typingSpan = document.getElementById('typingText');
+if (typingSpan) {
+const full = "Влада, ты — моё самое дорогое чудо. Каждый день с тобой — это маленькая сказка, которую я хочу рассказывать всю жизнь. Спасибо, что ты рядом. Я люблю тебя больше всего на свете. 💜";
+typingSpan.textContent = '';
+typingSpan.setAttribute('data-full', full);
+typingSpan.setAttribute('data-typed', 'false');
+typingBlocks.push(typingSpan);
+}
+
+document.querySelectorAll('#story .timeline-content p, #story .timeline-content h3, #story .timeline-date, #reasons .reason-card p, #reasons .reason-card h3').forEach(el => {
+const original = el.textContent.trim();
+if (original.length > 2) {
+el.textContent = '';
+el.setAttribute('data-full', original);
+el.setAttribute('data-typed', 'false');
+typingBlocks.push(el);
+}
+});
+
+function typeElement(el) {
+const full = el.getAttribute('data-full');
+if (!full) return;
+if (el.getAttribute('data-typed') === 'true') return;
+el.setAttribute('data-typed', 'true');
+
+let speed = 20;
+if (el.tagName === 'H3') speed = 15;
+if (el.classList.contains('timeline-date')) speed = 10;
+if (el.id === 'typingText') speed = 12;
+
+let index = 0;
+function typeNext() {
+if (index < full.length) {
+el.textContent += full[index];
+index++;
+setTimeout(typeNext, speed);
+}
+}
+typeNext();
+}
+
+const typingObserver = new IntersectionObserver((entries) => {
+entries.forEach(entry => {
+if (entry.isIntersecting) typeElement(entry.target);
+});
+}, { threshold: 0.15 });
+
+typingBlocks.forEach(el => typingObserver.observe(el));
+
+// ============ 30 ПОЖЕЛАНИЙ ============
+const wishes = [
+"Ты — моё солнце, которое светит даже в пасмурные дни ☀️",
+"С тобой каждый день — как маленький праздник 🎉",
+"Твоя улыбка — моё самое любимое зрелище в мире 😊",
+"Ты делаешь меня лучше, просто находясь рядом 💫",
+"Я люблю тебя больше, чем вчера, но меньше, чем завтра ❤️",
+"Ты — моя вселенная, в которой я хочу потеряться 🌌",
+"Каждая минута с тобой — бесценна ⏳",
+"Ты — причина моей самой искренней улыбки 😊",
+"Рядом с тобой я дома, где бы мы ни были 🏡",
+"Ты — моё вдохновение и моя муза 🎨",
+"Я выбираю тебя. Снова и снова. Каждый день 💕",
+"Ты — мой самый любимый человек на всей планете 🌍",
+"Спасибо, что ты есть. Просто спасибо 🙏",
+"Твои глаза — мои любимые звёзды ✨",
+"Ты — моё сердце, моя душа, моя жизнь 💖",
+"Я хочу прожить с тобой тысячу жизней 🌟",
+"Ты — лучшее, что случилось со мной 🍀",
+"Каждый день с тобой — подарок 🎁",
+"Ты — моя половинка, моё всё 💞",
+"Я люблю тебя до луны и обратно 🌙",
+"Твоя улыбка лечит все мои раны 💊",
+"Ты — мой самый тёплый уголок вселенной 🔥",
+"С тобой я чувствую себя самым счастливым человеком 😊",
+"Ты — моя надежда, моя вера, моя любовь 🙏",
+"Я хочу состариться с тобой 👵👴",
+"Ты — моя вторая половинка ❤️",
+"Твоя любовь делает меня сильнее 💪",
+"Ты — мой самый близкий человек 🤗",
+"Я благодарен судьбе за тебя 🙏",
+"Ты — моё сердце, бьющееся в груди 💓"
+];
+const flowers = ["🌹", "🌷", "🌸", "🌺", "💐", "🌻", "🏵️", "💮", "🥀", "🌼"];
+let bouquetCount = 0;
+
+function pickFlower() {
+const display = document.getElementById('bouquetDisplay');
+const message = document.getElementById('bouquetMessage');
+const counter = document.getElementById('bouquetCounter');
+display.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+display.classList.remove('picked');
+void display.offsetWidth;
+display.classList.add('picked');
+message.textContent = wishes[Math.floor(Math.random() * wishes.length)];
+bouquetCount++;
+counter.textContent = 'Собрано цветов: ' + bouquetCount;
+}
+
+// ============ ОБНИМАШКИ ============
+let hugCount = 0;
+const hugMessages = ["Обнимаю тебя крепко-крепко! 🤗", "Ты в моих объятиях 💕", "Самые тёплые объятия для тебя 🧡", "Обнимаю и не отпускаю 💜", "Ты в безопасности, я рядом 🤗"];
+
+function hugMe() {
+hugCount++;
+document.getElementById('hugCounter').textContent = 'Тебя обняли: ' + hugCount + ' раз';
+document.getElementById('hugMessage').textContent = hugMessages[Math.floor(Math.random() * hugMessages.length)];
+
+document.body.classList.remove('hug-pulse');
+void document.body.offsetWidth;
+document.body.classList.add('hug-pulse');
+setTimeout(() => document.body.classList.remove('hug-pulse'), 1500);
+
+const fwEmojis = ['💕','🧡','💜','💖','✨','🌹','💞','💗','💓','💝','❤️','🩷'];
+for (let i = 0; i < 30; i++) {
+setTimeout(() => {
+const heart = document.createElement('div');
+heart.className = 'firework-heart';
+heart.textContent = fwEmojis[Math.floor(Math.random() * fwEmojis.length)];
+const angle = Math.random() * Math.PI * 2;
+const distance = 120 + Math.random() * 250;
+heart.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
+heart.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
+heart.style.setProperty('--rot', (Math.random() * 720 - 360) + 'deg');
+heart.style.fontSize = (1.2 + Math.random() * 1.8) + 'rem';
+heart.style.animation = 'firework ' + (1.2 + Math.random() * 0.8) + 's ease-out forwards';
+document.body.appendChild(heart);
+setTimeout(() => heart.remove(), 2200);
+}, i * 25);
+}
+for (let i = 0; i < 30; i++) {
+setTimeout(() => {
+const heart = document.createElement('div');
+heart.className = 'tap-heart';
+heart.textContent = fwEmojis[Math.floor(Math.random() * fwEmojis.length)];
+heart.style.left = Math.random() * 100 + '%';
+heart.style.top = Math.random() * 100 + '%';
+heart.style.fontSize = (1.5 + Math.random() * 2.5) + 'rem';
+document.body.appendChild(heart);
+setTimeout(() => heart.remove(), 3000);
+}, i * 30);
+}
+}
+
+// ============ ЗВЁЗДНОЕ НЕБО ============
+const skyCanvas = document.getElementById('skyCanvas');
+
+const nebula1 = document.createElement('div');
+nebula1.className = 'nebula nebula-1';
+skyCanvas.appendChild(nebula1);
+const nebula2 = document.createElement('div');
+nebula2.className = 'nebula nebula-2';
+skyCanvas.appendChild(nebula2);
+const nebula3 = document.createElement('div');
+nebula3.className = 'nebula nebula-3';
+skyCanvas.appendChild(nebula3);
+
+const moon = document.createElement('div');
+moon.className = 'moon';
+skyCanvas.appendChild(moon);
+
+let seed = 20251106;
+function random() { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
+for (let i = 0; i < 140; i++) {
+const star = document.createElement('div');
+star.className = 'sky-star';
+const size = random() * 2.5 + 1;
+star.style.width = size + 'px';
+star.style.height = size + 'px';
+star.style.left = (random() * 100) + '%';
+star.style.top = (random() * 100) + '%';
+star.style.animationDelay = (random() * 3) + 's';
+skyCanvas.appendChild(star);
+}
+
+function createShootingStar() {
+const star = document.createElement('div');
+star.className = 'shooting-star';
+star.style.left = (60 + Math.random() * 35) + '%';
+star.style.top = (Math.random() * 25) + '%';
+star.style.animationDuration = (1.8 + Math.random() * 1) + 's';
+skyCanvas.appendChild(star);
+setTimeout(() => star.remove(), 3500);
+}
+setInterval(createShootingStar, 4500);
+setTimeout(createShootingStar, 1500);
+
+// ============ РАСТУЩАЯ РОЗА ============
+const roseSection = document.getElementById('rose');
+if (roseSection) {
+window.addEventListener('scroll', () => {
+const rect = roseSection.getBoundingClientRect();
+const windowH = window.innerHeight;
+let progress = (windowH - rect.top) / (windowH * 0.9);
+progress = Math.max(0, Math.min(1, progress));
+
+const stem = document.getElementById('roseStem');
+const leafL = document.getElementById('leafLeft');
+const leafR = document.getElementById('leafRight');
+const bud = document.getElementById('roseBud');
+
+// Стебель растёт в пикселях
+if (stem) stem.style.height = (progress * 250) + 'px';
+
+if (leafL) leafL.style.opacity = progress > 0.3 ? 1 : 0;
+if (leafR) leafR.style.opacity = progress > 0.5 ? 1 : 0;
+
+if (bud) {
+bud.style.opacity = progress > 0.1 ? 1 : 0;
+if (progress > 0.85) bud.classList.add('bloom');
+else bud.classList.remove('bloom');
+}
+});
+}
+
+// ============ ПЛАВНАЯ ПРОКРУТКА ============
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+anchor.addEventListener('click', function (e) {
+e.preventDefault();
+const target = document.querySelector(this.getAttribute('href'));
+if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+});
+
+// ============ СЮРПРИЗ ============
+function toggleSurprise() { document.getElementById('surprise').classList.toggle('open'); }
+
+// ============ ТАП-СЕРДЕЧКИ ============
+document.addEventListener('click', function(e) {
+if (e.target.closest('a, button, input')) return;
+const heart = document.createElement('div');
+heart.className = 'tap-heart';
+heart.textContent = ['💕','🧡','💜','💖','✨','🌹'][Math.floor(Math.random() * 6)];
+heart.style.left = e.clientX + 'px';
+heart.style.top = e.clientY + 'px';
+document.body.appendChild(heart);
+setTimeout(() => heart.remove(), 1200);
+});
+
+// ============ ГРАДИЕНТ ПРИ ПРОКРУТКЕ ============
+window.addEventListener('scroll', () => {
+const scrolled = window.scrollY;
+const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+const progress = scrolled / maxScroll;
+const angle = 135 + progress * 180;
+const c2 = progress > 0.5 ? '#f3e8ff' : '#fef0e6';
+document.body.style.background = `linear-gradient(${angle}deg, #fff8f0 0%, ${c2} 100%)`;
+});
+
+// ============ ПОЯВЛЕНИЕ СЕКЦИЙ ============
+const observer = new IntersectionObserver((entries) => {
+entries.forEach(entry => {
+if (entry.isIntersecting) entry.target.classList.add('visible');
+});
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
